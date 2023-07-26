@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Grid, Typography, Container } from "@mui/material";
+import { loginUser } from "../Redux/authSlice";
 
+import * as ReactBootstrap from "react-bootstrap";
 const Login = () => {
+  const dispatch = useDispatch();
+  const sm = useSelector((state) => state.auth);
+  console.log(sm);
+
+  useEffect(() => {
+    setLoading(sm.isLoading);
+  }, [sm]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = () => {};
+  const [loading, setLoading] = useState(false);
+  const userData = {
+    email,
+    password,
+  };
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(userData))
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  };
   return (
     <>
+      {loading ? (
+        <div className="loading">
+          <ReactBootstrap.Spinner animation="border" className="spinner" />
+        </div>
+      ) : null}
       <Container component="main" maxWidth="xs">
         <div>
           <Typography
@@ -54,7 +86,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item className="link">
-                <Link to="/login">Don't have an account? signup</Link>
+                <Link to="/signup">Don't have an account? signup</Link>
               </Grid>
             </Grid>
           </form>
