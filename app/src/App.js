@@ -4,6 +4,7 @@ import "./App.css";
 import { Button, AppBar, Toolbar, Typography, Container } from "@mui/material";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+import NotePage from "./Components/NotePage";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
@@ -38,7 +39,7 @@ function App() {
         <Container style={{ paddingTop: "20px" }}>
           <Routes>
             <Route path="/signup" exact element={<Signup />} />
-
+            <Route path="/notePage" exact element={<NotePage />} />
             <Route path="/login" exact element={<Login />} />
           </Routes>
         </Container>
