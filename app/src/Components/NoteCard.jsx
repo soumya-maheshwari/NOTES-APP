@@ -1,34 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editNoteThunk } from "../Redux/noteSlice";
+import { deleteNoteThunk, editNoteThunk } from "../Redux/noteSlice";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Button } from "@mui/material";
 
-const NoteCard = ({ id, title, content }) => {
+const NoteCard = ({ noteId, id, title, content }) => {
   const dispatch = useDispatch();
 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+
   const [editID, setEditID] = useState("");
+  const [deleteID, setDeleteID] = useState("");
 
   const userData = {
     title: editTitle,
     content: editContent,
     noteID: editID,
   };
+
   const handleClickOpen = () => {
     setEditID(id);
     setOpen(true);
     console.log(editID);
   };
+
+  const handleClickOpen2 = () => {
+    setDeleteID(id);
+    console.log(deleteID);
+    setOpen2(true);
+  };
   const handleClose = (value) => {
     setOpen(false);
   };
+  const handleClose2 = (value) => {
+    setOpen2(false);
+  };
   const handleEdit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     dispatch(editNoteThunk(userData))
+      .then((res) => {
+        // console.log(res);
+
+        return res;
+      })
+      .catch((err) => {
+        // console.log(err);
+        return err.response;
+      });
+  };
+
+  const userData2 = {
+    noteId: deleteID,
+  };
+  const handleDelete = (e) => {
+    e.preventDefault();
+    setDeleteID(id);
+
+    console.log(deleteID, "delete id");
+    dispatch(deleteNoteThunk(noteId))
       .then((res) => {
         console.log(res);
 
@@ -40,6 +72,11 @@ const NoteCard = ({ id, title, content }) => {
       });
   };
 
+  const handleCancelDelete = (e) => {
+    e.preventDefault();
+
+    setOpen2(false);
+  };
   return (
     <>
       <div className="all-notes">
@@ -74,15 +111,34 @@ const NoteCard = ({ id, title, content }) => {
                 </form>
               </div>
             </Dialog>
-            <button className="delete-btn">delete</button>
+            <button className="delete-btn" onClick={handleClickOpen2}>
+              delete
+            </button>
+            <Dialog open={open2} onClose={handleClose2}>
+              <div className="dialog-class">
+                <form className="form-class">
+                  <label className="label-class">
+                    Are you sure you want to delete this note?
+                  </label>
+
+                  <button type="submit" className="add" onClick={handleDelete}>
+                    YES
+                  </button>
+                  <button
+                    type="submit"
+                    className="add"
+                    onClick={handleCancelDelete}
+                  >
+                    NO
+                  </button>
+                </form>
+              </div>
+            </Dialog>
           </div>
           <h2 className="note-title">{title}</h2>
           <p className="note-content">{content}</p>
           <p>{id}</p>
         </div>
-        {/* <div className="note-card"> */}
-        {/* <h2 className="note-title">{title}</h2>
-        <p className="note-content">{content}</p> */}
       </div>
     </>
   );

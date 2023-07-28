@@ -22,11 +22,11 @@ export const addNoteThunk = createAsyncThunk(
 
     return await Api.post(`notes/create_note`, data, config)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         return res;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         return err.response;
       });
   }
@@ -36,7 +36,7 @@ export const getAllNotesThunk = createAsyncThunk(
   "notes/get_Notes",
   async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    console.log(user.accessToken);
+    // console.log(user.accessToken);
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -46,11 +46,11 @@ export const getAllNotesThunk = createAsyncThunk(
 
     return await Api.get(`notes/get_Notes`, config)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         return res;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         return err.response;
       });
   }
@@ -69,6 +69,31 @@ export const editNoteThunk = createAsyncThunk(
     };
 
     return await Api.post(`notes/edit_note`, data, config)
+      .then((res) => {
+        // console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        // console.log(err);
+        return err.response;
+      });
+  }
+);
+
+export const deleteNoteThunk = createAsyncThunk(
+  "notes/delete_note",
+  async (noteID) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(user.accessToken);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+    };
+    console.log(noteID);
+    console.log(`notes/delete_note/${noteID}`);
+    return await Api.delete(`notes/delete_note/${noteID}`, noteID, config)
       .then((res) => {
         console.log(res);
         return res;
@@ -110,7 +135,7 @@ export const noteSlice = createSlice({
       })
       .addCase(getAllNotesThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload);
+        // console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
           state.notes = action.payload.data.allNotes;
@@ -138,6 +163,24 @@ export const noteSlice = createSlice({
         }
       })
       .addCase(editNoteThunk.rejected, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+      })
+
+      .addCase(deleteNoteThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteNoteThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        if (action.payload.data.success) {
+          state.isSuccess = true;
+        } else {
+          state.isSuccess = false;
+          state.isError = true;
+        }
+      })
+      .addCase(deleteNoteThunk.rejected, (state) => {
         state.isLoading = true;
         state.isError = true;
       });

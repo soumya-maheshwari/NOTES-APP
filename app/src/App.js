@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Button, AppBar, Toolbar, Typography, Container } from "@mui/material";
@@ -8,6 +8,14 @@ import NotePage from "./Components/NotePage";
 import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("userInfo");
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       <BrowserRouter>

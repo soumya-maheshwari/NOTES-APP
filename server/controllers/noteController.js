@@ -87,7 +87,7 @@ const deleteNote = async (req, res, next) => {
     const noteId = req.params.id;
     console.log(noteId);
     if (!noteId) {
-      next(new ErrorHandler(400, "No not available for this id"));
+      next(new ErrorHandler(400, "No note available for this id"));
     }
     await Note.findByIdAndDelete(noteId);
     return res.status(200).json({

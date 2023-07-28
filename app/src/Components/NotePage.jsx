@@ -12,14 +12,14 @@ const NotePage = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = useState([]);
 
   const sm = useSelector((state) => state.note);
-  console.log(sm);
+  // console.log(sm);
 
   const user = JSON.parse(localStorage.getItem("userInfo"));
-  console.log(user.accessToken);
+  // console.log(user.accessToken);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,34 +32,34 @@ const NotePage = () => {
   useEffect(() => {
     setNotes(sm.notes);
   }, [sm]);
-  console.log(notes, "notes");
+  // console.log(notes, "notes");
   const userData = {
     title,
     content,
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     dispatch(addNoteThunk(userData))
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         return res;
       })
       .catch((err) => {
         console.log(err);
-        return err.response;
+        // return err.response;
       });
   };
 
   useEffect(() => {
     dispatch(getAllNotesThunk())
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         return res;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         return err.response;
       });
   }, []);

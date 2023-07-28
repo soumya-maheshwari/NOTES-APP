@@ -2,7 +2,7 @@ import React from "react";
 import NoteCard from "./NoteCard";
 
 const NoteList = ({ notes }) => {
-  console.log(notes);
+  // console.log(notes);
   return (
     <>
       <div className="note-list">
@@ -19,6 +19,7 @@ const NoteList = ({ notes }) => {
                   key={note._id}
                   title={note.title}
                   content={note.content}
+                  noteId={note._id}
                   id={note._id}
                 />
               );
