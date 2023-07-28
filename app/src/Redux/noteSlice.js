@@ -1,0 +1,147 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Api from "./API.js";
+
+const initialState = {
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
+  notes: [],
+};
+
+export const addNoteThunk = createAsyncThunk(
+  "notes/createNote",
+  async (data) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    // console.log(user.accessToken);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+    };
+
+    return await Api.post(`notes/create_note`, data, config)
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  }
+);
+
+export const getAllNotesThunk = createAsyncThunk(
+  "notes/get_Notes",
+  async () => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(user.accessToken);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+    };
+
+    return await Api.get(`notes/get_Notes`, config)
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  }
+);
+
+export const editNoteThunk = createAsyncThunk(
+  "notes/edit_note",
+  async (data) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(user.accessToken);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${user.accessToken}`,
+      },
+    };
+
+    return await Api.post(`notes/edit_note`, data, config)
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  }
+);
+
+export const noteSlice = createSlice({
+  name: "note",
+  initialState: initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+
+      .addCase(addNoteThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addNoteThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        if (action.payload.data.success) {
+          state.isSuccess = true;
+        } else {
+          state.isSuccess = false;
+          state.isError = true;
+        }
+      })
+      .addCase(addNoteThunk.rejected, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+      })
+
+      .addCase(getAllNotesThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllNotesThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        if (action.payload.data.success) {
+          state.isSuccess = true;
+          state.notes = action.payload.data.allNotes;
+        } else {
+          state.isSuccess = false;
+          state.isError = true;
+        }
+      })
+      .addCase(getAllNotesThunk.rejected, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+      })
+
+      .addCase(editNoteThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editNoteThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        if (action.payload.data.success) {
+          state.isSuccess = true;
+        } else {
+          state.isSuccess = false;
+          state.isError = true;
+        }
+      })
+      .addCase(editNoteThunk.rejected, (state) => {
+        state.isLoading = true;
+        state.isError = true;
+      });
+  },
+});
+
+export default noteSlice.reducer;

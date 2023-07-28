@@ -1,0 +1,32 @@
+import React from "react";
+import NoteCard from "./NoteCard";
+
+const NoteList = ({ notes }) => {
+  console.log(notes);
+  return (
+    <>
+      <div className="note-list">
+        all notes
+        <div className="note-class">
+          {notes &&
+            notes.map((note) => {
+              {
+                console.log(note);
+              }
+
+              return (
+                <NoteCard
+                  key={note._id}
+                  title={note.title}
+                  content={note.content}
+                  id={note._id}
+                />
+              );
+            })}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default NoteList;

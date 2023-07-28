@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Grid, Typography, Container } from "@mui/material";
 import { loginUser } from "../Redux/authSlice";
@@ -7,6 +7,7 @@ import { loginUser } from "../Redux/authSlice";
 import * as ReactBootstrap from "react-bootstrap";
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const sm = useSelector((state) => state.auth);
   console.log(sm);
 
@@ -33,6 +34,15 @@ const Login = () => {
         return err.response;
       });
   };
+
+  useEffect(() => {
+    if (sm.isSuccess) {
+      navigate("/notePage");
+
+      localStorage.setItem("userInfo", JSON.stringify(sm.profile));
+    }
+  }, [sm]);
+
   return (
     <>
       {loading ? (

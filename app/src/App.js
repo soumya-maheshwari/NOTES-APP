@@ -5,13 +5,14 @@ import { Button, AppBar, Toolbar, Typography, Container } from "@mui/material";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import NotePage from "./Components/NotePage";
+import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
       <BrowserRouter>
         <AppBar
-          position="static"
+          // position="static"
           style={{
             backgroundColor: "gold",
             color: "black",
@@ -36,7 +37,7 @@ function App() {
           </Toolbar>{" "}
         </AppBar>
 
-        <Container style={{ paddingTop: "20px" }}>
+        <Container style={{ paddingTop: "16vh" }}>
           <Routes>
             <Route path="/signup" exact element={<Signup />} />
             <Route path="/notePage" exact element={<NotePage />} />

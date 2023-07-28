@@ -6,6 +6,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   user: {},
+  profile: "",
 };
 
 export const registerUser = createAsyncThunk("auth/signup", async (data) => {
@@ -70,6 +71,7 @@ export const authSlice = createSlice({
         if (action.payload.data.success) {
           state.isSuccess = true;
           state.user = action.payload.data.user;
+          state.profile = action.payload.data;
         } else {
           state.isSuccess = false;
           state.isError = true;
