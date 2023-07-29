@@ -62,7 +62,7 @@ export const editNoteThunk = createAsyncThunk(
   "notes/edit_note",
   async (data) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    console.log(user.accessToken);
+    // console.log(user.accessToken);
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -86,22 +86,22 @@ export const deleteNoteThunk = createAsyncThunk(
   "notes/delete_note",
   async (noteID) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    console.log(user.accessToken);
+    // console.log(user.accessToken);
     const config = {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${user.accessToken}`,
       },
     };
-    console.log(noteID);
-    console.log(`notes/delete_note/${noteID}`);
+    // console.log(noteID);
+    // console.log(`notes/delete_note/${noteID}`);
     return await Api.delete(`notes/delete_note/${noteID}`, noteID, config)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         return res;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         return err.response;
       });
   }
@@ -160,6 +160,12 @@ export const noteSlice = createSlice({
         console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
+          // state.notes = action.payload.data.allNotes;
+
+          const note = state.notes.findIndex(
+            (n) => n._id == action.payload.data.note._id
+          );
+          state.notes[note] = action.payload.data.note;
         } else {
           state.isSuccess = false;
           state.isError = true;
@@ -178,6 +184,9 @@ export const noteSlice = createSlice({
         console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
+          state.notes = state.notes.filter((s) => {
+            return s._id != action.payload.data.noteId;
+          });
         } else {
           state.isSuccess = false;
           state.isError = true;

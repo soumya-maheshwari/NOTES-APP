@@ -7,14 +7,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import edit from ".././Assets/edit.svg";
 import del from ".././Assets/bin.svg";
+import * as ReactBootstrap from "react-bootstrap";
 
 const NoteCard = ({ noteID, noteId, id, title, content }) => {
   const dispatch = useDispatch();
+  const sm = useSelector((state) => state.note);
 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [editID, setEditID] = useState("");
   const [deleteID, setDeleteID] = useState("");
@@ -60,6 +63,13 @@ const NoteCard = ({ noteID, noteId, id, title, content }) => {
         });
       }
       setOpen(false);
+
+      // const updatedNote = {
+      //   _id: editID,
+      //   title: title,
+      //   content: content,
+      // };
+
       return res;
     });
   };
@@ -96,6 +106,10 @@ const NoteCard = ({ noteID, noteId, id, title, content }) => {
     setOpen2(false);
   };
 
+  useEffect(() => {
+    setLoading(sm.isLoading);
+  }, [sm]);
+
   // useEffect(() => {
   //   setEditTitle(title);
   //   setEditContent(content);
@@ -131,9 +145,20 @@ const NoteCard = ({ noteID, noteId, id, title, content }) => {
                   <button type="submit" className="add">
                     EDIT
                   </button>
+                  {loading ? (
+                    <div className="loading-overlay">
+                      <ReactBootstrap.Spinner
+                        animation="border"
+                        className="spinner"
+                        variant="success"
+                      />
+                    </div>
+                  ) : null}
                 </form>
               </div>
             </Dialog>
+
+            {/* DELETE NOTE */}
             <button className="delete-btn" onClick={handleClickOpen2}>
               <img src={del} alt="delete" />
             </button>

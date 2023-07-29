@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNoteThunk, getAllNotesThunk } from "../Redux/noteSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as ReactBootstrap from "react-bootstrap";
 
 const NotePage = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const NotePage = () => {
   const [content, setContent] = useState("");
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const sm = useSelector((state) => state.note);
   // console.log(sm);
@@ -56,6 +58,7 @@ const NotePage = () => {
         setContent("");
         setTitle("");
       }
+
       setOpen(false);
 
       const currentNote = {
@@ -68,6 +71,10 @@ const NotePage = () => {
       return res;
     });
   };
+
+  useEffect(() => {
+    setLoading(sm.isLoading);
+  }, [sm]);
 
   useEffect(() => {
     dispatch(getAllNotesThunk());
@@ -118,6 +125,15 @@ const NotePage = () => {
             <button type="submit" className="add">
               ADD
             </button>
+            {loading ? (
+              <div className="loading-overlay">
+                <ReactBootstrap.Spinner
+                  animation="border"
+                  className="spinner"
+                  variant="success"
+                />
+              </div>
+            ) : null}
           </form>
         </div>
       </Dialog>

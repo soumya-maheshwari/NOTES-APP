@@ -37,7 +37,7 @@ const Login = () => {
       toast.success(`${sm.response}`, {
         position: "top-right",
         // theme: "DARK",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -46,7 +46,7 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/notePage");
-      }, 6000);
+      }, 3000);
 
       localStorage.setItem("userInfo", JSON.stringify(sm.profile));
     } else {
