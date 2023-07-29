@@ -70,10 +70,18 @@ const NotePage = () => {
       <Button
         variant="outlined"
         onClick={handleClickOpen}
-        // style={{
-        //   alignItems: "center",
-        //   position: "absolute",
-        // }}
+        style={{
+          alignItems: "center",
+
+          backgroundColor: "gold",
+          justifyContent: "center",
+          display: "flex",
+          textAlign: "center",
+          marginLeft: "40vw",
+          marginBottom: "3vw",
+          color: "black",
+          // position: "absolute",
+        }}
       >
         CREATE NEW NOTE
       </Button>

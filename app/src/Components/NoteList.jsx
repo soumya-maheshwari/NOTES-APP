@@ -6,7 +6,6 @@ const NoteList = ({ notes }) => {
   return (
     <>
       <div className="note-list">
-        all notes
         <div className="note-class">
           {notes &&
             notes.map((note) => {

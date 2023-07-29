@@ -66,26 +66,29 @@
 }
 
 body {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
-  /* height: 100vh; */
-  /* background-color: #f3f3f3; */
+  align-items: center; */
+  height: 100vh;
+  background-color: #f3f3f3;
+}
+
+.all-notes {
+  margin: 10px;
 }
 
 .note-card {
-  /* width: 300px;
-  padding: 20px;
-  background-color: #fff;
+  /* width: 300px; */
+  /* background-color: #fff; */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
-  border-top: 20px solid pink; */
-  width: 26vw;
-  height: 22vh;
-  background-color: rgb(235, 163, 163);
+  /* border-top: 10px solid pink; */
+  /* width: 26vw; */
+  /* height: 22vh; */
+  background-color: rgb(239, 235, 211);
   margin: 10px;
-  padding: 10px;
+  padding: 20px;
 }
 
 .note-card:hover {
@@ -95,20 +98,20 @@ body {
 .note-title {
   font-size: 24px;
   font-weight: bold;
-  color: white;
+  color: black;
   margin-bottom: 10px;
 }
 
 .note-content {
-  color: white;
+  color: black;
 
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .note-class {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
 }
 .notes {
   /* width: 26vw;
@@ -141,4 +144,12 @@ body {
   color: white;
   cursor: pointer;
   margin-left: 1vw;
+}
+
+.two-btns {
+  display: flex;
+}
+
+.del {
+  margin-left: 1.9vw;
 }

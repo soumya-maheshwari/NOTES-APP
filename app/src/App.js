@@ -1,26 +1,64 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
-import { Button, AppBar, Toolbar, Typography, Container } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Button, AppBar, Toolbar, Typography } from "@mui/material";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import NotePage from "./Components/NotePage";
 import "./App.css";
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("userInfo");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (token) {
       setIsLoggedIn(true);
     }
+    // Add event listener for beforeunload
+    const handleBeforeUnload = () => {
+      // Clear local storage here
+      localStorage.clear();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [isLoggedIn]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+  };
+  const handleCancelLogout = (e) => {
+    e.preventDefault();
+
+    setOpen(false);
+  };
   return (
     <>
       <BrowserRouter>
         <AppBar
-          // position="static"
+          position="static"
           style={{
             backgroundColor: "gold",
             color: "black",
@@ -31,7 +69,35 @@ function App() {
               Notes App
             </Typography>
             {isLoggedIn ? (
-              <Button color="inherit">Logout</Button>
+              <>
+                <Button color="inherit" onClick={handleClickOpen}>
+                  Logout
+                </Button>
+                <Dialog open={open} onClose={handleClose}>
+                  <div className="dialog-class">
+                    <DialogTitle>Are you sure you want to Logout?</DialogTitle>
+                    <form className="form-class">
+                      {" "}
+                      <div className="two-btns">
+                        <button
+                          type="submit"
+                          className="add"
+                          onClick={handleLogout}
+                        >
+                          YES
+                        </button>
+                        <button
+                          type="submit"
+                          className="add del"
+                          onClick={handleCancelLogout}
+                        >
+                          NO
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Dialog>
+              </>
             ) : (
               <>
                 <Link to="/login">
@@ -45,13 +111,13 @@ function App() {
           </Toolbar>{" "}
         </AppBar>
 
-        <Container style={{ paddingTop: "16vh" }}>
+        <div style={{ marginTop: "5vh" }}>
           <Routes>
             <Route path="/signup" exact element={<Signup />} />
-            <Route path="/notePage" exact element={<NotePage />} />
+            {token && <Route path="/notePage" exact element={<NotePage />} />}
             <Route path="/login" exact element={<Login />} />
           </Routes>
-        </Container>
+        </div>
       </BrowserRouter>
     </>
   );

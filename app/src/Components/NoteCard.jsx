@@ -4,6 +4,18 @@ import { deleteNoteThunk, editNoteThunk } from "../Redux/noteSlice";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 
+function getRandomRgb() {
+  var num = Math.round(0xffffff * Math.random());
+  var r = num >> 16;
+  var g = (num >> 8) & 255;
+  var b = num & 255;
+  return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+for (var i = 0; i < 10; i++) {
+  console.log(getRandomRgb());
+}
+
 const NoteCard = ({ noteId, id, title, content }) => {
   const dispatch = useDispatch();
 
@@ -59,7 +71,7 @@ const NoteCard = ({ noteId, id, title, content }) => {
     e.preventDefault();
     setDeleteID(id);
 
-    console.log(deleteID, "delete id");
+    // console.log(deleteID, "delete id");
     dispatch(deleteNoteThunk(noteId))
       .then((res) => {
         console.log(res);
@@ -80,7 +92,15 @@ const NoteCard = ({ noteId, id, title, content }) => {
   return (
     <>
       <div className="all-notes">
-        <div className="note-card">
+        <div
+          className="note-card"
+          style={{
+            borderTopWidth: "3px",
+            // borderTop: "red",
+            borderTop: `9px solid ${getRandomRgb()}`,
+            // borderTop: `${getRandomRgb()}`,
+          }}
+        >
           <div className="btns">
             <button className="edit-btn" onClick={handleClickOpen}>
               edit
@@ -121,23 +141,28 @@ const NoteCard = ({ noteId, id, title, content }) => {
                     Are you sure you want to delete this note?
                   </label>
 
-                  <button type="submit" className="add" onClick={handleDelete}>
-                    YES
-                  </button>
-                  <button
-                    type="submit"
-                    className="add"
-                    onClick={handleCancelDelete}
-                  >
-                    NO
-                  </button>
+                  <div className="two-btns">
+                    <button
+                      type="submit"
+                      className="add"
+                      onClick={handleDelete}
+                    >
+                      YES
+                    </button>
+                    <button
+                      type="submit"
+                      className="add del"
+                      onClick={handleCancelDelete}
+                    >
+                      NO
+                    </button>
+                  </div>
                 </form>
               </div>
             </Dialog>
           </div>
           <h2 className="note-title">{title}</h2>
           <p className="note-content">{content}</p>
-          <p>{id}</p>
         </div>
       </div>
     </>
