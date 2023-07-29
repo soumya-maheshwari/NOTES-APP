@@ -37,7 +37,7 @@
   border-radius: 6px;
   font-size: 18px;
   height: 40px;
-  width: 20vw;
+  width: 24vw;
   border: 1px solid black;
   margin-bottom: 16px;
   margin-top: 10px;
@@ -50,7 +50,7 @@
   padding: 5px 5px;
   font-size: 18px;
   height: 90px;
-  width: 20vw;
+  width: 26vw;
   border: 1px solid black;
   margin-bottom: 16px;
   margin-top: 10px;
@@ -104,7 +104,6 @@ body {
 
 .note-content {
   color: black;
-
   font-size: 18px;
 }
 
@@ -113,13 +112,6 @@ body {
   flex-wrap: wrap;
   /* justify-content: center; */
 }
-.notes {
-  /* width: 26vw;
-  height: 22vh;
-  background-color: red;
-  margin: 10px;
-  padding: 10px; */
-}
 
 .btns {
   display: flex;
@@ -127,21 +119,19 @@ body {
 }
 
 .edit-btn {
-  width: 5vw;
+  width: 30px;
   height: 30px;
   outline: none;
   border: none;
-  background-color: black;
-  color: white;
   cursor: pointer;
+  background: none;
 }
 .delete-btn {
-  width: 6vw;
+  width: 30px;
   height: 30px;
   outline: none;
   border: none;
-  background-color: black;
-  color: white;
+  background: none;
   cursor: pointer;
   margin-left: 1vw;
 }
@@ -152,4 +142,118 @@ body {
 
 .del {
   margin-left: 1.9vw;
+}
+
+@media (max-width: 900px) {
+  .dialog-class {
+    width: 47vw;
+  }
+  .add {
+    margin-top: 10px;
+  }
+  #input-class {
+    width: 33vw;
+  }
+  #desc-class {
+    width: 37vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .dialog-class {
+    width: 50vw;
+  }
+  .add {
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 36vw;
+  }
+  #desc-class {
+    width: 42vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .dialog-class {
+    width: 50vw;
+  }
+  .add {
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 36vw;
+  }
+  #desc-class {
+    width: 42vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dialog-class {
+    width: 69vw;
+  }
+  .add {
+    width: 16vw;
+    height: 36px;
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 43vw;
+  }
+  #desc-class {
+    width: 48vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dialog-class {
+    width: 79vw;
+  }
+  .add {
+    width: 17vw;
+    height: 36px;
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 55vw;
+  }
+  #desc-class {
+    width: 63vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+  .all-notes {
+    margin: 4px;
+  }
+
+  .note-card {
+    border-radius: 9px;
+
+    margin: 7px;
+    padding: 20px;
+  }
+
+  .note-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .note-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+  }
+
+  .note-content {
+    color: black;
+    font-size: 18px;
+  }
 }

@@ -3,9 +3,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button } from "@mui/material";
 import NoteList from "./NoteList";
-import NoteCard from "./NoteCard";
 import { useDispatch, useSelector } from "react-redux";
 import { addNoteThunk, getAllNotesThunk } from "../Redux/noteSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NotePage = () => {
   const dispatch = useDispatch();
@@ -39,29 +40,35 @@ const NotePage = () => {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    dispatch(addNoteThunk(userData))
-      .then((res) => {
-        // console.log(res);
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        // return err.response;
-      });
+    e.preventDefault();
+    dispatch(addNoteThunk(userData)).then((res) => {
+      // console.log(res);
+      if (res.payload.data.success) {
+        toast.success(`${res.payload.data.msg}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      setOpen(false);
+
+      const currentNote = {
+        title: title,
+        content: content,
+        _id: 1,
+      };
+
+      setNotes([currentNote, ...notes]);
+      return res;
+    });
   };
 
   useEffect(() => {
-    dispatch(getAllNotesThunk())
-      .then((res) => {
-        // console.log(res);
-
-        return res;
-      })
-      .catch((err) => {
-        // console.log(err);
-        return err.response;
-      });
+    dispatch(getAllNotesThunk());
   }, []);
 
   return (
@@ -72,15 +79,15 @@ const NotePage = () => {
         onClick={handleClickOpen}
         style={{
           alignItems: "center",
-
           backgroundColor: "gold",
           justifyContent: "center",
           display: "flex",
           textAlign: "center",
-          marginLeft: "40vw",
           marginBottom: "3vw",
           color: "black",
           // position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
       >
         CREATE NEW NOTE
@@ -88,7 +95,7 @@ const NotePage = () => {
 
       <Dialog open={open} onClose={handleClose}>
         <div className="dialog-class">
-          <DialogTitle>CREATE NEW NOTE</DialogTitle>
+          <DialogTitle fontSize={"20px"}> NEW NOTE</DialogTitle>
           <form className="form-class" onSubmit={handleSubmit}>
             <label className="label-class">Title</label>
             <input
@@ -113,6 +120,7 @@ const NotePage = () => {
         </div>
       </Dialog>
       <NoteList notes={notes} />
+      <ToastContainer />
     </>
   );
 };

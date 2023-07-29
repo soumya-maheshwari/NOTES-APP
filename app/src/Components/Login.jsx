@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Grid, Typography, Container } from "@mui/material";
 import { loginUser } from "../Redux/authSlice";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as ReactBootstrap from "react-bootstrap";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,14 +37,46 @@ const Login = () => {
       });
   };
 
+  // useEffect(() => {
+  //   if (sm.isSuccess) {
+  //     navigate("/notePage");
+
+  //     localStorage.setItem("userInfo", JSON.stringify(sm.profile));
+  //   }
+  // }, [sm]);
+
   useEffect(() => {
     if (sm.isSuccess) {
-      navigate("/notePage");
+      toast.success(`${sm.response}`, {
+        position: "top-right",
+        // theme: "DARK",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTimeout(() => {
+        navigate("/notePage");
+      }, 6000);
 
       localStorage.setItem("userInfo", JSON.stringify(sm.profile));
+    } else {
+      if (sm.response !== "") {
+        toast.error(`${sm.response}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // }
+      }
     }
   }, [sm]);
-
   return (
     <>
       {loading ? (
@@ -90,6 +124,7 @@ const Login = () => {
                 marginTop: "4vh",
                 marginBottom: "4vh",
                 height: "50px",
+                fontSize: "19px",
               }}
             >
               LOGIN
@@ -102,6 +137,7 @@ const Login = () => {
           </form>
         </div>
       </Container>
+      <ToastContainer />
     </>
   );
 };

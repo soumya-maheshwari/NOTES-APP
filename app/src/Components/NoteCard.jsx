@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteThunk, editNoteThunk } from "../Redux/noteSlice";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import edit from ".././Assets/edit.svg";
+import del from ".././Assets/bin.svg";
 
 function getRandomRgb() {
   var num = Math.round(0xffffff * Math.random());
@@ -51,17 +55,23 @@ const NoteCard = ({ noteId, id, title, content }) => {
     setOpen2(false);
   };
   const handleEdit = (e) => {
-    // e.preventDefault();
-    dispatch(editNoteThunk(userData))
-      .then((res) => {
-        // console.log(res);
-
-        return res;
-      })
-      .catch((err) => {
-        // console.log(err);
-        return err.response;
-      });
+    e.preventDefault();
+    dispatch(editNoteThunk(userData)).then((res) => {
+      console.log(res);
+      if (res.payload.data.success) {
+        toast.success(`${res.payload.data.message}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      setOpen(false);
+      return res;
+    });
   };
 
   const userData2 = {
@@ -72,16 +82,22 @@ const NoteCard = ({ noteId, id, title, content }) => {
     setDeleteID(id);
 
     // console.log(deleteID, "delete id");
-    dispatch(deleteNoteThunk(noteId))
-      .then((res) => {
-        console.log(res);
-
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        return err.response;
-      });
+    dispatch(deleteNoteThunk(noteId)).then((res) => {
+      console.log(res);
+      if (res.payload.data.success) {
+        toast.success(`${res.payload.data.msg}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      setOpen2(false);
+      return res;
+    });
   };
 
   const handleCancelDelete = (e) => {
@@ -103,7 +119,7 @@ const NoteCard = ({ noteId, id, title, content }) => {
         >
           <div className="btns">
             <button className="edit-btn" onClick={handleClickOpen}>
-              edit
+              <img src={edit} alt="edit" />
             </button>
             <Dialog open={open} onClose={handleClose}>
               <div className="dialog-class">
@@ -132,7 +148,7 @@ const NoteCard = ({ noteId, id, title, content }) => {
               </div>
             </Dialog>
             <button className="delete-btn" onClick={handleClickOpen2}>
-              delete
+              <img src={del} alt="delete" />
             </button>
             <Dialog open={open2} onClose={handleClose2}>
               <div className="dialog-class">

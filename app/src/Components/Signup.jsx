@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { TextField, Button, Grid, Typography, Container } from "@mui/material";
 import { registerUser } from "../Redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const sm = useSelector((state) => state.auth);
   console.log(sm);
@@ -32,6 +36,39 @@ const Signup = () => {
         return err.response;
       });
   };
+
+  useEffect(() => {
+    if (sm.isSuccess) {
+      toast.success(`${sm.response}`, {
+        position: "top-right",
+        // theme: "DARK",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTimeout(() => {
+        navigate("/notePage");
+      }, 6000);
+
+      localStorage.setItem("userInfo", JSON.stringify(sm.profile));
+    } else {
+      if (sm.response !== "") {
+        toast.error(`${sm.response}`, {
+          position: "top-right",
+          // theme: "DARK",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // }
+      }
+    }
+  }, [sm]);
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -75,6 +112,7 @@ const Signup = () => {
                 marginTop: "4vh",
                 marginBottom: "4vh",
                 height: "50px",
+                fontSize: "19px",
               }}
             >
               Sign Up
@@ -87,6 +125,7 @@ const Signup = () => {
           </form>
         </div>
       </Container>
+      <ToastContainer />
     </>
   );
 };

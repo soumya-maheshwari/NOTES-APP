@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Link,
+  Navigate,
   Route,
   Routes,
   useNavigate,
@@ -29,17 +30,17 @@ function App() {
       setIsLoggedIn(true);
     }
     // Add event listener for beforeunload
-    const handleBeforeUnload = () => {
-      // Clear local storage here
-      localStorage.clear();
-    };
+    // const handleBeforeUnload = () => {
+    //   // Clear local storage here
+    //   localStorage.clear();
+    // };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    // window.addEventListener("beforeunload", handleBeforeUnload);
 
     // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    // return () => {
+    //   window.removeEventListener("beforeunload", handleBeforeUnload);
+    // };
   }, [isLoggedIn]);
 
   const handleClickOpen = () => {
@@ -48,6 +49,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.clear();
+    return Navigate("/login");
   };
   const handleCancelLogout = (e) => {
     e.preventDefault();
@@ -101,10 +103,20 @@ function App() {
             ) : (
               <>
                 <Link to="/login">
-                  <Button color="inherit">Login</Button>
+                  <Button
+                    color="inherit"
+                    style={{ color: "black", fontSize: "21PX" }}
+                  >
+                    Login
+                  </Button>
                 </Link>
                 <Link to="/signup">
-                  <Button color="inherit">Signup</Button>
+                  <Button
+                    color="inherit"
+                    style={{ color: "black", fontSize: "21PX" }}
+                  >
+                    Signup
+                  </Button>
                 </Link>
               </>
             )}
@@ -114,7 +126,9 @@ function App() {
         <div style={{ marginTop: "5vh" }}>
           <Routes>
             <Route path="/signup" exact element={<Signup />} />
-            {token && <Route path="/notePage" exact element={<NotePage />} />}
+
+            <Route path="/notePage" exact element={<NotePage />} />
+
             <Route path="/login" exact element={<Login />} />
           </Routes>
         </div>

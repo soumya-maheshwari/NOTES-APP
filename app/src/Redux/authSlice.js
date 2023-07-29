@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   user: {},
   profile: "",
+  response: "",
 };
 
 export const registerUser = createAsyncThunk("auth/signup", async (data) => {
@@ -46,9 +47,12 @@ export const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.response = action.payload.data.msg;
         // console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
+          state.profile = action.payload.data;
+
           state.user = action.payload.data.user;
         } else {
           state.isSuccess = false;
@@ -66,6 +70,7 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.response = action.payload.data.msg;
 
         console.log(action.payload);
         if (action.payload.data.success) {

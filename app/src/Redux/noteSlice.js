@@ -6,6 +6,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   notes: [],
+  response1: "",
+  response2: "",
 };
 
 export const addNoteThunk = createAsyncThunk(
@@ -120,6 +122,7 @@ export const noteSlice = createSlice({
         console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
+          state.response1 = action.payload.data.msg;
         } else {
           state.isSuccess = false;
           state.isError = true;
