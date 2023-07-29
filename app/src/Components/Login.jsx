@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sm = useSelector((state) => state.auth);
-  console.log(sm);
+  // console.log(sm);
 
   useEffect(() => {
     setLoading(sm.isLoading);
@@ -26,24 +26,11 @@ const Login = () => {
   };
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginUser(userData))
-      .then((res) => {
-        console.log(res);
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        return err.response;
-      });
+    dispatch(loginUser(userData)).then((res) => {
+      // console.log(res);
+      return res;
+    });
   };
-
-  // useEffect(() => {
-  //   if (sm.isSuccess) {
-  //     navigate("/notePage");
-
-  //     localStorage.setItem("userInfo", JSON.stringify(sm.profile));
-  //   }
-  // }, [sm]);
 
   useEffect(() => {
     if (sm.isSuccess) {
@@ -79,11 +66,6 @@ const Login = () => {
   }, [sm]);
   return (
     <>
-      {loading ? (
-        <div className="loading">
-          <ReactBootstrap.Spinner animation="border" className="spinner" />
-        </div>
-      ) : null}
       <Container component="main" maxWidth="xs">
         <div>
           <Typography
@@ -126,9 +108,19 @@ const Login = () => {
                 height: "50px",
                 fontSize: "19px",
               }}
+              disabled={loading}
             >
               LOGIN
             </Button>
+            {loading ? (
+              <div className="loading-overlay">
+                <ReactBootstrap.Spinner
+                  animation="border"
+                  className="spinner"
+                  variant="success"
+                />
+              </div>
+            ) : null}
             <Grid container>
               <Grid item className="link">
                 <Link to="/signup">Don't have an account? signup</Link>

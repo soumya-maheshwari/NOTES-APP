@@ -49,7 +49,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.clear();
-    return Navigate("/login");
+    // return Navigate("/login");
   };
   const handleCancelLogout = (e) => {
     e.preventDefault();

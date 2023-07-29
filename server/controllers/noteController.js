@@ -19,7 +19,7 @@ const createNote = async (req, res, next) => {
       user: userid,
     });
     await newNote.save();
-    console.log(newNote);
+    // console.log(newNote);
     return res.status(200).json({
       newNote,
       msg: "Note created successfully",
@@ -35,10 +35,10 @@ const getAllNotes = async (req, res, next) => {
   try {
     const user = req.user;
     const userid = user._id;
-    console.log(userid);
+    // console.log(userid);
     const allNotes = await Note.find({ user: userid });
 
-    console.log(allNotes);
+    // console.log(allNotes);
     res.status(200).json({
       allNotes,
       success: true,
@@ -85,7 +85,7 @@ const editNote = async (req, res, next) => {
 const deleteNote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
-    console.log(noteId);
+    // console.log(noteId);
     if (!noteId) {
       next(new ErrorHandler(400, "No note available for this id"));
     }

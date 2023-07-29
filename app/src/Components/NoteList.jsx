@@ -20,6 +20,7 @@ const NoteList = ({ notes }) => {
                   content={note.content}
                   noteId={note._id}
                   id={note._id}
+                  noteID={note._id}
                 />
               );
             })}

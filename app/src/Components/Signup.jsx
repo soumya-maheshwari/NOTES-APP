@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import * as ReactBootstrap from "react-bootstrap";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Signup = () => {
   useEffect(() => {
     setLoading(sm.isLoading);
   }, [sm]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,15 +28,10 @@ const Signup = () => {
   };
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(registerUser(userData))
-      .then((res) => {
-        console.log(res);
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-        return err.response;
-      });
+    dispatch(registerUser(userData)).then((res) => {
+      // console.log(res);
+      return res;
+    });
   };
 
   useEffect(() => {
@@ -117,6 +114,15 @@ const Signup = () => {
             >
               Sign Up
             </Button>
+            {loading ? (
+              <div className="loading-overlay">
+                <ReactBootstrap.Spinner
+                  animation="border"
+                  className="spinner"
+                  variant="success"
+                />
+              </div>
+            ) : null}
             <Grid container>
               <Grid item className="link">
                 <Link to="/login">Already have an account? logIn</Link>

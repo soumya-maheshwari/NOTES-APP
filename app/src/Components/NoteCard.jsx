@@ -8,19 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import edit from ".././Assets/edit.svg";
 import del from ".././Assets/bin.svg";
 
-function getRandomRgb() {
-  var num = Math.round(0xffffff * Math.random());
-  var r = num >> 16;
-  var g = (num >> 8) & 255;
-  var b = num & 255;
-  return "rgb(" + r + ", " + g + ", " + b + ")";
-}
-
-for (var i = 0; i < 10; i++) {
-  console.log(getRandomRgb());
-}
-
-const NoteCard = ({ noteId, id, title, content }) => {
+const NoteCard = ({ noteID, noteId, id, title, content }) => {
   const dispatch = useDispatch();
 
   const [editTitle, setEditTitle] = useState("");
@@ -40,22 +28,24 @@ const NoteCard = ({ noteId, id, title, content }) => {
   const handleClickOpen = () => {
     setEditID(id);
     setOpen(true);
-    console.log(editID);
+    // console.log(editID);
   };
 
   const handleClickOpen2 = () => {
     setDeleteID(id);
-    console.log(deleteID);
+    // console.log(deleteID);
     setOpen2(true);
   };
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
   };
-  const handleClose2 = (value) => {
+  const handleClose2 = () => {
     setOpen2(false);
   };
   const handleEdit = (e) => {
     e.preventDefault();
+    setEditID(id);
+
     dispatch(editNoteThunk(userData)).then((res) => {
       console.log(res);
       if (res.payload.data.success) {
@@ -83,7 +73,7 @@ const NoteCard = ({ noteId, id, title, content }) => {
 
     // console.log(deleteID, "delete id");
     dispatch(deleteNoteThunk(noteId)).then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.payload.data.success) {
         toast.success(`${res.payload.data.msg}`, {
           position: "top-right",
@@ -105,18 +95,15 @@ const NoteCard = ({ noteId, id, title, content }) => {
 
     setOpen2(false);
   };
+
+  // useEffect(() => {
+  //   setEditTitle(title);
+  //   setEditContent(content);
+  // }, [title, content]);
   return (
     <>
       <div className="all-notes">
-        <div
-          className="note-card"
-          style={{
-            borderTopWidth: "3px",
-            // borderTop: "red",
-            borderTop: `9px solid ${getRandomRgb()}`,
-            // borderTop: `${getRandomRgb()}`,
-          }}
-        >
+        <div className="note-card">
           <div className="btns">
             <button className="edit-btn" onClick={handleClickOpen}>
               <img src={edit} alt="edit" />

@@ -53,6 +53,8 @@ const NotePage = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        setContent("");
+        setTitle("");
       }
       setOpen(false);
 
