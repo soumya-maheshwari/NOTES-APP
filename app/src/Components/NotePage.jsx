@@ -43,6 +43,17 @@ const NotePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!(title && content)) {
+      toast.error(`Please enter something to add a note`, {
+        position: "top-right",
+        // theme: "DARK",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
     dispatch(addNoteThunk(userData)).then((res) => {
       // console.log(res);
       if (res.payload.data.success) {

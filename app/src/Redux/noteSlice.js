@@ -138,7 +138,7 @@ export const noteSlice = createSlice({
       })
       .addCase(getAllNotesThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        // console.log(action.payload);
+        console.log(action.payload);
         if (action.payload.data.success) {
           state.isSuccess = true;
           state.notes = action.payload.data.allNotes;
