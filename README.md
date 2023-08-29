@@ -1,6 +1,6 @@
 # <p align="center"> MERN Notes App</p>
 
-A simple web application for taking short notes.
+A web application for taking short notes.
 
 ## Tech Stack
 
