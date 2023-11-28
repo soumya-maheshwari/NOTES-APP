@@ -125,6 +125,8 @@ function App() {
 
         <div style={{ marginTop: "5vh" }}>
           <Routes>
+              
+            <Route path="/" exact element={<Login />} />
             <Route path="/signup" exact element={<Signup />} />
 
             <Route path="/notePage" exact element={<NotePage />} />
